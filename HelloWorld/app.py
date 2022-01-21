@@ -10,8 +10,15 @@ with open('spring-22-students.tsv', newline='') as file:
     next(iterator, None)
     for row in iterator:
         names.append(row[0])
-    while len(names) > x:
-        a = sample(names, x)
+    remNames = len(names) % x
+    print(remNames)
+    if remNames > 1:
+        remNames = int(x / remNames)
+    teamSize = len(names)/ x + remNames
+    print(remNames)
+    print(int(teamSize))
+    while len(names) > teamSize:
+        a = sample(names, int(teamSize))
         teams.append(a)
         for row in a:
             names.remove(row)
