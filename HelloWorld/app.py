@@ -1,27 +1,30 @@
 import csv
 from random import sample
+
 names = []
 teams = []
 
-x = int(input("Select number of teams: "))
+numTeams = int(input("Select number of teams: "))
 
 with open('spring-22-students.tsv', newline='') as file:
     iterator = csv.reader(file, delimiter='\t', quotechar='|')
     next(iterator, None)
     for row in iterator:
         names.append(row[0])
-    remNames = len(names) % x
-    print(remNames)
-    if remNames > 1:
-        remNames = int(x / remNames)
-    teamSize = len(names)/ x + remNames
-    print(remNames)
-    print(int(teamSize))
+    remNames = len(names) % numTeams
+    teamSize = len(names)/ numTeams
     while len(names) > teamSize:
-        a = sample(names, int(teamSize))
-        teams.append(a)
-        for row in a:
-            names.remove(row)
+        if remNames != 0:
+            remNames -= 1
+            addName = sample(names, int(teamSize) + 1)
+            teams.append(addName)
+            for row in addName:
+                names.remove(row)
+        else:
+            addName = sample(names, int(teamSize))
+            teams.append(addName)
+            for row in addName:
+                names.remove(row)
     for row in teams:
         print(row)
     print(names)
